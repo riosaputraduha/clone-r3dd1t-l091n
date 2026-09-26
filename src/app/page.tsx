@@ -1,9 +1,14 @@
+import { SiteHeader } from "@/components/sites/reddit.com-1feab940/login-7e93fba0/header";
+import { AuthModal } from "@/components/sites/reddit.com-1feab940/login-7e93fba0/auth-modal";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">
-        Clone target not yet built. Run <code className="font-mono text-foreground">/clone-website</code> to start.
-      </p>
-    </main>
+    <>
+      <SiteHeader />
+      <main className="relative flex min-h-screen w-screen grow items-center justify-center px-4 pt-14">
+        <div className="site-reddit-com-1feab940-bg-pattern absolute inset-0 -z-10 bg-[rgb(9,15,17)]" />
+        <AuthModal />
+      </main>
+    </>
   );
 }

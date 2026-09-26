@@ -49,24 +49,24 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --background: rgb(9 15 17);
+  --foreground: rgb(238 241 243);
+  --card: rgb(24 28 31);
+  --card-foreground: rgb(238 241 243);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --primary: rgb(100 142 252);
+  --primary-foreground: rgb(238 241 243);
+  --secondary: rgb(36 41 45);
+  --secondary-foreground: rgb(238 241 243);
+  --muted: rgb(36 41 45);
+  --muted-foreground: rgb(183 202 212);
+  --accent: rgb(36 41 45);
+  --accent-foreground: rgb(238 241 243);
+  --destructive: rgb(234 92 92);
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 12%);
+  --ring: rgb(100 142 252);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -126,5 +126,16 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@layer components {
+  .site-reddit-com-1feab940-bg-pattern {
+    -webkit-mask-image: url("/sites/reddit.com-1feab940/login-7e93fba0/images/auth-bg-pattern.svg");
+    mask-image: url("/sites/reddit.com-1feab940/login-7e93fba0/images/auth-bg-pattern.svg");
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-type: alpha;
+    mask-type: alpha;
   }
 }
