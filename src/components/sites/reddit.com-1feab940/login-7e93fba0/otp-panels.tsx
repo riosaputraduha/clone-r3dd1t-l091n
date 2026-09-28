@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useIsDarkMode } from "@/hooks/use-is-dark-mode";
 
 const CODE_LENGTH = 6;
 
@@ -11,6 +12,7 @@ interface OtpPanelProps {
 }
 
 function OtpDigitInputs({ length, onComplete }: { length: number; onComplete: (complete: boolean) => void }) {
+  const isDark = useIsDarkMode();
   const [digits, setDigits] = useState<string[]>(Array(length).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -38,7 +40,10 @@ function OtpDigitInputs({ length, onComplete }: { length: number; onComplete: (c
           inputMode="numeric"
           maxLength={1}
           aria-label={`Digit ${i + 1}`}
-          className="h-14 w-11 rounded-xl bg-[rgb(42,50,54)] text-center text-lg text-[rgb(238,241,243)] outline-none focus:ring-2 focus:ring-[rgb(100,142,252)]"
+          className={cn(
+            "h-14 w-11 rounded-xl text-center text-lg outline-none focus:ring-2 focus:ring-[rgb(100,142,252)]",
+            isDark ? "bg-[rgb(42,50,54)] text-[rgb(238,241,243)]" : "bg-[rgb(240,240,240)] text-[rgb(26,26,27)]"
+          )}
         />
       ))}
     </div>
@@ -60,20 +65,25 @@ function PanelShell({
   onTryAnother: () => void;
   tryAnotherLabel: string;
 }) {
+  const isDark = useIsDarkMode();
+
   return (
     <div className="flex flex-col gap-4">
       <button
         type="button"
         onClick={onBack}
         aria-label="Back"
-        className="-ml-2 flex h-8 w-8 items-center justify-center rounded-full text-[rgb(183,202,212)] hover:bg-white/10"
+        className={cn(
+          "-ml-2 flex h-8 w-8 items-center justify-center rounded-full",
+          isDark ? "text-[rgb(183,202,212)] hover:bg-white/10" : "text-[rgb(87,101,109)] hover:bg-black/5"
+        )}
       >
         <svg fill="currentColor" height="20" width="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path d="M17.5 9.1H4.679l5.487-5.462a.898.898 0 00.003-1.272.898.898 0 00-1.272-.003l-7.032 7a.898.898 0 000 1.275l7.03 7a.896.896 0 001.273-.003.898.898 0 00-.002-1.272l-5.487-5.462h12.82a.9.9 0 000-1.8Z" />
         </svg>
       </button>
-      <h2 className="text-xl font-bold leading-6 text-[rgb(238,241,243)]">{title}</h2>
-      <p className="text-sm text-[rgb(183,202,212)]">{description}</p>
+      <h2 className={cn("text-xl font-bold leading-6", isDark ? "text-[rgb(238,241,243)]" : "text-[rgb(26,26,27)]")}>{title}</h2>
+      <p className={cn("text-sm", isDark ? "text-[rgb(183,202,212)]" : "text-[rgb(87,101,109)]")}>{description}</p>
       {children}
       <button
         type="button"
@@ -87,6 +97,7 @@ function PanelShell({
 }
 
 export function OtpAppPanel({ onBack, onTryAnother }: OtpPanelProps) {
+  const isDark = useIsDarkMode();
   const [complete, setComplete] = useState(false);
 
   return (
@@ -106,7 +117,9 @@ export function OtpAppPanel({ onBack, onTryAnother }: OtpPanelProps) {
             "h-12 w-full rounded-full text-sm font-semibold transition-colors",
             complete
               ? "cursor-pointer bg-[rgb(100,142,252)] text-[rgb(238,241,243)]"
-              : "cursor-not-allowed bg-white/[0.047] text-white/[0.247]"
+              : isDark
+                ? "cursor-not-allowed bg-white/[0.047] text-white/[0.247]"
+                : "cursor-not-allowed bg-black/[0.05] text-black/[0.25]"
           )}
         >
           Continue
@@ -117,6 +130,7 @@ export function OtpAppPanel({ onBack, onTryAnother }: OtpPanelProps) {
 }
 
 export function OtpBackupPanel({ onBack, onTryAnother }: OtpPanelProps) {
+  const isDark = useIsDarkMode();
   const [code, setCode] = useState("");
 
   return (
@@ -133,7 +147,12 @@ export function OtpBackupPanel({ onBack, onTryAnother }: OtpPanelProps) {
           onChange={(e) => setCode(e.target.value)}
           placeholder="Backup code"
           aria-label="Backup code"
-          className="h-14 rounded-[20px] bg-[rgb(42,50,54)] px-4 text-base text-[rgb(238,241,243)] outline-none placeholder:text-[rgb(139,162,173)]"
+          className={cn(
+            "h-14 rounded-[20px] px-4 text-base outline-none",
+            isDark
+              ? "bg-[rgb(42,50,54)] text-[rgb(238,241,243)] placeholder:text-[rgb(139,162,173)]"
+              : "bg-[rgb(240,240,240)] text-[rgb(26,26,27)] placeholder:text-[rgb(120,124,126)]"
+          )}
         />
         <button
           type="submit"
@@ -142,7 +161,9 @@ export function OtpBackupPanel({ onBack, onTryAnother }: OtpPanelProps) {
             "h-12 w-full rounded-full text-sm font-semibold transition-colors",
             code.length > 0
               ? "cursor-pointer bg-[rgb(100,142,252)] text-[rgb(238,241,243)]"
-              : "cursor-not-allowed bg-white/[0.047] text-white/[0.247]"
+              : isDark
+                ? "cursor-not-allowed bg-white/[0.047] text-white/[0.247]"
+                : "cursor-not-allowed bg-black/[0.05] text-black/[0.25]"
           )}
         >
           Continue

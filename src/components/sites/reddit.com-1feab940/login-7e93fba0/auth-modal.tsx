@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { useIsDarkMode } from "@/hooks/use-is-dark-mode";
 import { X } from "lucide-react";
 import { LoginForm } from "./login-form";
 import { OtpAppPanel, OtpBackupPanel } from "./otp-panels";
@@ -14,11 +16,15 @@ const PAGE_NAMES = [
 type PageName = (typeof PAGE_NAMES)[number];
 
 export function AuthModal() {
+  const isDark = useIsDarkMode();
   const [pageName, setPageName] = useState<PageName>("login_username_and_password");
 
   return (
     <div
-      className="relative flex w-full max-w-[528px] flex-col overflow-hidden rounded-2xl bg-[rgb(24,28,31)]"
+      className={cn(
+        "relative flex w-full max-w-[528px] flex-col overflow-hidden rounded-2xl",
+        isDark ? "bg-[rgb(24,28,31)]" : "bg-white"
+      )}
       style={{
         boxShadow:
           "0 1px 4px 0 rgba(0,0,0,.33), 0 4px 4px 0 rgba(0,0,0,.33)",
@@ -29,7 +35,10 @@ export function AuthModal() {
       <Link
         href="/"
         aria-label="Close"
-        className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-[rgb(238,241,243)] hover:bg-white/20 sm:hidden"
+        className={cn(
+          "absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full sm:hidden",
+          isDark ? "bg-white/10 text-[rgb(238,241,243)] hover:bg-white/20" : "bg-black/5 text-[rgb(26,26,27)] hover:bg-black/10"
+        )}
       >
         <X size={18} />
       </Link>
@@ -40,10 +49,10 @@ export function AuthModal() {
       >
         {pageName === "login_username_and_password" && (
           <>
-            <h1 className="mb-2 text-2xl font-bold leading-7 text-[rgb(238,241,243)]">
+            <h1 className={cn("mb-2 text-2xl font-bold leading-7", isDark ? "text-[rgb(238,241,243)]" : "text-[rgb(26,26,27)]")}>
               Log In
             </h1>
-            <p className="mb-6 text-sm text-[rgb(183,202,212)]">
+            <p className={cn("mb-6 text-sm", isDark ? "text-[rgb(183,202,212)]" : "text-[rgb(87,101,109)]")}>
               By continuing, you agree to our{" "}
               <a
                 href="https://www.redditinc.com/policies/user-agreement"
