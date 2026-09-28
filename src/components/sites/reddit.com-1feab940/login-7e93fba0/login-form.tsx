@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { SSOButtons } from "./sso-buttons";
 import { FloatingLabelInput } from "./floating-label-input";
 
-export function LoginForm() {
+interface LoginFormProps {
+  onSubmit?: () => void;
+}
+
+export function LoginForm({ onSubmit }: LoginFormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const canSubmit = username.length > 0 && password.length > 0;
@@ -14,7 +18,10 @@ export function LoginForm() {
   return (
     <form
       className="flex flex-col gap-4"
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit?.();
+      }}
     >
       <SSOButtons />
 
