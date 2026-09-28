@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { X } from "lucide-react";
 import { LoginForm } from "./login-form";
 import { OtpAppPanel, OtpBackupPanel } from "./otp-panels";
 
@@ -16,12 +18,21 @@ export function AuthModal() {
 
   return (
     <div
-      className="flex w-full max-w-[528px] flex-col overflow-hidden rounded-2xl bg-[rgb(24,28,31)]"
+      className="relative flex w-full max-w-[528px] flex-col overflow-hidden rounded-2xl bg-[rgb(24,28,31)]"
       style={{
         boxShadow:
           "0 1px 4px 0 rgba(0,0,0,.33), 0 4px 4px 0 rgba(0,0,0,.33)",
       }}
     >
+      {/* Close button: mobile-only, since the modal itself is the whole screen there
+          (no header/backdrop to click away on). Desktop closes via backdrop click. */}
+      <Link
+        href="/"
+        aria-label="Close"
+        className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-[rgb(238,241,243)] hover:bg-white/20 sm:hidden"
+      >
+        <X size={18} />
+      </Link>
       <div
         className="px-6 pb-8 pt-6"
         data-pagenames={PAGE_NAMES.join(",")}
