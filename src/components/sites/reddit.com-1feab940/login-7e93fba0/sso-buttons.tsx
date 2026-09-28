@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useIsDarkMode } from "@/hooks/use-is-dark-mode";
 import { AppleLogo, LinkIcon } from "../shared/icons";
+import { GoogleSignInPopup } from "./google-signin-popup";
 
 function GoogleLogo() {
   return (
@@ -15,20 +21,44 @@ const buttonBase =
   "flex h-12 w-full items-center justify-center gap-2 rounded-full text-sm font-semibold";
 
 export function SSOButtons() {
+  const isDark = useIsDarkMode();
+  const [showGooglePopup, setShowGooglePopup] = useState(false);
+
   return (
     <div className="flex flex-col gap-2">
-      <button type="button" className={`${buttonBase} border border-black/10 bg-white text-[#1f1f1f]`}>
+      <button
+        type="button"
+        onClick={() => setShowGooglePopup(true)}
+        className={cn(buttonBase, "border border-black/10 bg-white text-[#1f1f1f]")}
+      >
         <GoogleLogo />
         Continue with Google
       </button>
-      <button type="button" className={`${buttonBase} bg-black text-white`}>
+      <button
+        type="button"
+        className={cn(buttonBase, isDark ? "bg-black text-white" : "bg-[rgb(26,26,27)] text-white")}
+      >
         <AppleLogo />
         Sign in with Apple
       </button>
-      <button type="button" className={`${buttonBase} border border-white/20 bg-transparent text-[rgb(238,241,243)]`}>
+      <button
+        type="button"
+        className={cn(
+          buttonBase,
+          "border bg-transparent",
+          isDark ? "border-white/20 text-[rgb(238,241,243)]" : "border-black/20 text-[rgb(26,26,27)]"
+        )}
+      >
         <LinkIcon width={20} height={20} />
         Continue with email
       </button>
+
+      {showGooglePopup && (
+        <GoogleSignInPopup
+          onClose={() => setShowGooglePopup(false)}
+          onContinue={() => setShowGooglePopup(false)}
+        />
+      )}
     </div>
   );
 }
